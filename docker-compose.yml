@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: microfinance-hr-app
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www
+    networks:
+      - microfinance-hr-network
+    depends_on:
+      - db
+      - redis
+
+  webserver:
+    image: nginx:alpine
+    container_name: microfinance-hr-webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - microfinance-hr-network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: microfinance-hr-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_NAME: mysql
+    volumes:
+      - microfinance-hr-dbdata:/var/lib/mysql
+    networks:
+      - microfinance-hr-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+      retries: 3
+      timeout: 5s
+
+  redis:
+    image: redis:alpine
+    container_name: microfinance-hr-redis
+    restart: unless-stopped
+    networks:
+      - microfinance-hr-network
+
+networks:
+  microfinance-hr-network:
+    driver: bridge
+
+volumes:
+  microfinance-hr-dbdata:
