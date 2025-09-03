@@ -37,16 +37,18 @@
     <body class="font-sans antialiased" x-data="{ sidebarOpen: true }">
         <x-banner />
 
-        <div class="flex flex-col min-h-screen bg-background">
+        <div class="flex flex-col min-h-screen bg-background pt-16">
             <!-- Top Navigation - Full Width -->
             <x-top-nav />
             
-            <div class="flex flex-1">
-                <!-- Sidebar -->
-                <x-sidebar />
+            <div class="flex flex-1 relative">
+                <!-- Fixed Sidebar - Mobile view uses narrower width, desktop uses full width -->
+                <div class="fixed top-16 left-0 h-screen overflow-y-auto z-10 bg-primary w-16 md:w-64" x-show="sidebarOpen">
+                    <x-sidebar />
+                </div>
                 
-                <!-- Main Content Area -->
-                <div class="flex-1 px-4 py-6 transition-all duration-300" :class="{'ml-0': !sidebarOpen, 'ml-64': sidebarOpen}">
+                <!-- Main Content Area - No left margin when sidebar is closed -->
+                <div class="flex-grow px-4 py-6" :class="sidebarOpen ? 'ml-16 md:ml-64' : 'ml-0'">
                     <!-- Page Content -->
                     <main>
                         {{ $slot }}

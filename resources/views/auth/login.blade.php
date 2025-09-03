@@ -14,7 +14,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="GET" action="{{ route('dashboard') }}">
             @csrf
 
             <div class="mb-6">
@@ -23,7 +23,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class='bx bx-envelope text-gray-400'></i>
                     </div>
-                    <x-input id="email" class="block w-full pl-10 focus:ring-primary focus:border-primary py-3" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="your.email@example.com" />
+                    <x-input id="email" class="block w-full pl-10 focus:ring-primary focus:border-primary py-3" type="email" name="email" :value="old('email')" autofocus autocomplete="username" placeholder="your.email@example.com" />
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class='bx bx-lock-alt text-gray-400'></i>
                     </div>
-                    <x-input id="password" class="block w-full pl-10 focus:ring-primary focus:border-primary py-3" type="password" name="password" required autocomplete="current-password" placeholder="••••••••" />
+                    <x-input id="password" class="block w-full pl-10 focus:ring-primary focus:border-primary py-3" type="password" name="password" autocomplete="current-password" placeholder="••••••••" />
                 </div>
             </div>
 

@@ -1,7 +1,7 @@
-@props(['id', 'maxWidth'])
+@props(['id', 'maxWidth', 'show' => false])
 
 @php
-$id = $id ?? md5($attributes->wire('model'));
+$id = $id ?? md5($attributes->get('id'));
 
 $maxWidth = [
     'sm' => 'sm:max-w-sm',
@@ -9,14 +9,21 @@ $maxWidth = [
     'lg' => 'sm:max-w-lg',
     'xl' => 'sm:max-w-xl',
     '2xl' => 'sm:max-w-2xl',
+    '3xl' => 'sm:max-w-3xl',
+    '4xl' => 'sm:max-w-4xl',
+    '5xl' => 'sm:max-w-5xl',
+    '6xl' => 'sm:max-w-6xl',
+    '7xl' => 'sm:max-w-7xl',
 ][$maxWidth ?? '2xl'];
 @endphp
 
 <div
-    x-data="{ show: @entangle($attributes->wire('model')) }"
+    x-data="{ show: {{ $show ? 'true' : 'false' }} }"
     x-on:close.stop="show = false"
     x-on:keydown.escape.window="show = false"
     x-show="show"
+    x-on:open-modal.window="$event.detail == '{{ $id }}' ? show = true : null"
+    x-on:close-modal.window="$event.detail == '{{ $id }}' ? show = false : null"
     id="{{ $id }}"
     class="jetstream-modal fixed inset-0 overflow-y-auto px-4 py-6 sm:px-0 z-50"
     style="display: none;"
