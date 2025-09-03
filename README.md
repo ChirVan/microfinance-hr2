@@ -4,12 +4,6 @@ A comprehensive HR management system for microfinance institutions, built with L
 
 ## Features
 
-- Employee management
-- Payroll processing
-- Leave management
-- Performance tracking
-- Document management
-- Reporting and analytics
 - Training Management
 - Competency Management
 - Succession Planning
